@@ -1,8 +1,9 @@
 import React from 'react';
+import css from './Info.module.css'
 
 export const Info = ({ followers, tweets }) => (
-  <div>
-    <p>{tweets} Tweets</p>
-    <p>{followers} Followers</p>
-  </div>
+  <ul className={css.wrapper}>
+    <li className={css.text}>{tweets} Tweets</li>
+    <li className={css.text}>{followers} Followers</li>
+  </ul>
 );

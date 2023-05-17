@@ -9,8 +9,8 @@ export const TweetList = ({ users, onClick }) => (
           key={user.id}
           id={user.id}
           avatar={user.avatar}
-          followers={user.followers}
-          tweets={user.tweets}
+          followers={user.followers.toLocaleString('en-US')}
+          tweets={user.tweets.toLocaleString('en-US')}
           isFollowing={user.isFollowing}
           onClick={onClick}
         ></TweetCard>

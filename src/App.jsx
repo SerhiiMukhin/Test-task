@@ -1,4 +1,3 @@
-import './App.css';
 import { TweetList } from './components/TweetList/TweetList';
 import { fetchUsers } from './services/users-API';
 import { useState, useEffect } from 'react';
