@@ -6,10 +6,12 @@ function App() {
   const localStorageKey = 'users';
   const [users, setUsers] = useState([]);
 
+  const tweetsToShow = 3;
+  const [currentTweetIndex, setCurrentTweetIndex] = useState(tweetsToShow);
+
   useEffect(() => {
     const storedData = localStorage.getItem(localStorageKey);
     if (storedData) {
-      // console.log('Дані вже присутні в local storage.');
       setUsers(JSON.parse(storedData));
     } else {
       fetchData();
@@ -24,7 +26,6 @@ function App() {
       });
       setUsers(addIsFollowing);
       localStorage.setItem(localStorageKey, JSON.stringify(addIsFollowing));
-      // console.log('Дані успішно завантажені з серверу та збережені в local storage.');
     } catch (error) {
       console.error('Сталася помилка:', error);
     }
@@ -47,16 +48,18 @@ function App() {
     }
   };
 
-  const tweetsToShow = 3;
-  const [currentTweetIndex, setCurrentTweetIndex] = useState(tweetsToShow);
-
   const loadMore = () => {
     setCurrentTweetIndex(prevIndex => prevIndex + tweetsToShow);
   };
 
   return (
     <div className="App">
-      <TweetList users={users} onClick={handleFollowButtonClick} loadMore={loadMore} tweets={currentTweetIndex}></TweetList>
+      <TweetList
+        users={users}
+        onClick={handleFollowButtonClick}
+        loadMore={loadMore}
+        tweets={currentTweetIndex}
+      ></TweetList>
     </div>
   );
 }
