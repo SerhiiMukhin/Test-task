@@ -4,15 +4,16 @@ import { fetchUsers } from 'services/users-API';
 
 export const Tweets = () => {
   const localStorageKey = 'users';
-  const [users, setUsers] = useState([]);
+  const localData = JSON.parse(localStorage.getItem(localStorageKey));
+  const [users, setUsers] = useState(localData);
 
   const tweetsToShow = 3;
   const [currentTweetIndex, setCurrentTweetIndex] = useState(tweetsToShow);
 
   useEffect(() => {
-    const storedData = localStorage.getItem(localStorageKey);
-    if (storedData) {
-      setUsers(JSON.parse(storedData));
+    const data = localStorage.getItem(localStorageKey);
+    if (data) {
+      setUsers(JSON.parse(data));
     } else {
       fetchData();
     }
