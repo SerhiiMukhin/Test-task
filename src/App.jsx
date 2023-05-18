@@ -47,9 +47,16 @@ function App() {
     }
   };
 
+  const tweetsToShow = 3;
+  const [currentTweetIndex, setCurrentTweetIndex] = useState(tweetsToShow);
+
+  const loadMore = () => {
+    setCurrentTweetIndex(prevIndex => prevIndex + tweetsToShow);
+  };
+
   return (
     <div className="App">
-      <TweetList users={users} onClick={handleFollowButtonClick}></TweetList>
+      <TweetList users={users} onClick={handleFollowButtonClick} loadMore={loadMore} tweets={currentTweetIndex}></TweetList>
     </div>
   );
 }

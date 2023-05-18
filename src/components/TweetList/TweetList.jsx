@@ -2,10 +2,10 @@ import React from 'react';
 import { TweetCard } from '../TweetCard/TweetCard';
 import css from './TweetList.module.css';
 
-export const TweetList = ({ users, onClick }) => (
+export const TweetList = ({ users, onClick, loadMore, tweets }) => (
   <div className={css.wrapper}>
     <ul className={css.list}>
-      {users.map(user => (
+      {users.slice(0, tweets).map(user => (
         <li key={user.id}>
           <TweetCard
             id={user.id}
@@ -18,5 +18,10 @@ export const TweetList = ({ users, onClick }) => (
         </li>
       ))}
     </ul>
+    {tweets < users.length && (
+      <button type="button" onClick={loadMore} className={css.button}>
+        Load More
+      </button>
+    )}
   </div>
 );
