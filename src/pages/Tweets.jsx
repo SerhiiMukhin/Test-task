@@ -1,36 +1,26 @@
 import { TweetList } from 'components/TweetList/TweetList';
 import React, { useEffect, useState } from 'react';
+import { getLocalUsers, setLocalUsers } from 'services/localStorageService';
 import { fetchUsers } from 'services/users-API';
 
 export const Tweets = () => {
   const localStorageKey = 'users';
-  const localData = JSON.parse(localStorage.getItem(localStorageKey));
-  const [users, setUsers] = useState(localData);
-
-  const tweetsToShow = 3;
-  const [currentTweetIndex, setCurrentTweetIndex] = useState(tweetsToShow);
+  const [users, setUsers] = useState([]);
+  const [currentTweetIndex, setCurrentTweetIndex] = useState(3);
 
   useEffect(() => {
-    const data = localStorage.getItem(localStorageKey);
-    if (data) {
-      setUsers(JSON.parse(data));
+    const localUsers = getLocalUsers(localStorageKey) || [];
+    if (localUsers.length !== 0) {
+      setUsers(localUsers);
     } else {
-      fetchData();
+      fetchUsers()
+        .then(users => {
+          setUsers(users);
+          localStorage.setItem(localStorageKey, JSON.stringify(users));
+        })
+        .catch(error => console.log(error));
     }
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const usersData = await fetchUsers();
-      const addIsFollowing = usersData.map(user => {
-        return { ...user, isFollowing: false };
-      });
-      setUsers(addIsFollowing);
-      localStorage.setItem(localStorageKey, JSON.stringify(addIsFollowing));
-    } catch (error) {
-      console.error('Сталася помилка:', error);
-    }
-  };
 
   const handleFollowButtonClick = event => {
     event.preventDefault();
@@ -40,22 +30,22 @@ export const Tweets = () => {
       userToFollow.isFollowing = true;
       userToFollow.followers += 1;
       setUsers([...users]);
-      localStorage.setItem(localStorageKey, JSON.stringify(users));
+      setLocalUsers(localStorageKey, users);
     } else if (userToFollow.isFollowing === true) {
       userToFollow.isFollowing = false;
       userToFollow.followers -= 1;
       setUsers([...users]);
-      localStorage.setItem(localStorageKey, JSON.stringify(users));
+      setLocalUsers(localStorageKey, users);
     }
   };
 
   const loadMore = () => {
-    setCurrentTweetIndex(prevIndex => prevIndex + tweetsToShow);
+    setCurrentTweetIndex(prevIndex => prevIndex + 3);
   };
 
   const showAll = () => {
-    setCurrentTweetIndex(users.length)
-  }
+    setCurrentTweetIndex(users.length);
+  };
 
   return (
     <TweetList
