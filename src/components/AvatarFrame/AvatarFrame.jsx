@@ -1,5 +1,6 @@
 import React from 'react';
 import css from './AvatarFrame.module.css';
+import PropTypes from 'prop-types';
 
 export const AvatarFrame = ({ avatar }) => (
   <div className={css.wrapper}>
@@ -12,3 +13,7 @@ export const AvatarFrame = ({ avatar }) => (
     </div>
   </div>
 );
+
+AvatarFrame.propTypes = {
+  avatar: PropTypes.string.isRequired,
+};

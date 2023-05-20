@@ -1,44 +1,16 @@
-import React, { useEffect, useState } from 'react';
 import { TweetCard } from '../TweetCard/TweetCard';
 import css from './TweetList.module.css';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export const TweetList = ({ users, onClick, loadMore, tweets }) => {
-  const [filteredUsers, setFilteredUsers] = useState(users);
-
-  useEffect(() => {}, [filteredUsers]);
-
-  const handleChange = event => {
-    const filterValue = event.target.value;
-    switch (filterValue) {
-      case 'all':
-        setFilteredUsers(users);
-        break;
-      case 'following':
-        setFilteredUsers(users.filter(user => user.isFollowing === true));
-        break;
-      case 'follow':
-        setFilteredUsers(users.filter(user => user.isFollowing === false));
-        break;
-      default:
-        break;
-    }
-  };
-
+export const TweetList = ({ users, onClick, loadMore, tweets, showAll }) => {
   return (
     <div className={css.wrapper}>
       <Link to="/" className={css.back}>
         Go back
       </Link>
-      <label>
-        <select name="filter" id="filter" onChange={handleChange}>
-          <option value="all">All</option>
-          <option value="following">Following</option>
-          <option value="follow">Follow</option>
-        </select>
-      </label>
       <ul className={css.list}>
-        {filteredUsers.slice(0, tweets).map(user => (
+        {users.slice(0, tweets).map(user => (
           <li key={user.id}>
             <TweetCard
               id={user.id}
@@ -51,11 +23,24 @@ export const TweetList = ({ users, onClick, loadMore, tweets }) => {
           </li>
         ))}
       </ul>
-      {tweets < filteredUsers.length && (
-        <button type="button" onClick={loadMore} className={css.button}>
-          Load More
-        </button>
+      {tweets < users.length && (
+        <div className={css.buttons_wrapper}>
+          <button type="button" onClick={loadMore} className={css.button}>
+            Load More
+          </button>
+          <button type="button" onClick={showAll} className={css.button}>
+            Show All
+          </button>
+        </div>
       )}
     </div>
   );
+};
+
+TweetList.propTypes = {
+  users: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired,
+  loadMore: PropTypes.func.isRequired,
+  tweets: PropTypes.number.isRequired,
+  showAll: PropTypes.func.isRequired,
 };

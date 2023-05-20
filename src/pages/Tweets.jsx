@@ -52,11 +52,16 @@ export const Tweets = () => {
     setCurrentTweetIndex(prevIndex => prevIndex + tweetsToShow);
   };
 
+  const showAll = () => {
+    setCurrentTweetIndex(users.length)
+  }
+
   return (
     <TweetList
       users={users}
       onClick={handleFollowButtonClick}
       loadMore={loadMore}
+      showAll={showAll}
       tweets={currentTweetIndex}
     ></TweetList>
   );
