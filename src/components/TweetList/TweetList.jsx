@@ -1,17 +1,23 @@
 import { TweetCard } from '../TweetCard/TweetCard';
 import css from './TweetList.module.css';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ScrollToTopButton from 'components/ScrollButton/ScrollButton';
+import { useState } from 'react';
 
-export const TweetList = ({ users, onClick, loadMore, tweets, showAll }) => {
+export const TweetList = ({ users, onClick }) => {
+  const [currentTweetIndex, setCurrentTweetIndex] = useState(3);
+
+  const loadMore = () => {
+    setCurrentTweetIndex(prevIndex => prevIndex + 3);
+  };
+
+  const showAll = () => {
+    setCurrentTweetIndex(users.length);
+  };
   return (
     <div className={css.wrapper}>
-      <Link to="/" className={css.back}>
-        Go back
-      </Link>
       <ul className={css.list}>
-        {users.slice(0, tweets).map(user => (
+        {users.slice(0, currentTweetIndex).map(user => (
           <li key={user.id}>
             <TweetCard
               id={user.id}
@@ -24,7 +30,7 @@ export const TweetList = ({ users, onClick, loadMore, tweets, showAll }) => {
           </li>
         ))}
       </ul>
-      {tweets < users.length && (
+      {currentTweetIndex < users.length && (
         <div className={css.buttons_wrapper}>
           <button type="button" onClick={loadMore} className={css.button}>
             Load More
@@ -42,7 +48,4 @@ export const TweetList = ({ users, onClick, loadMore, tweets, showAll }) => {
 TweetList.propTypes = {
   users: PropTypes.array.isRequired,
   onClick: PropTypes.func.isRequired,
-  loadMore: PropTypes.func.isRequired,
-  tweets: PropTypes.number.isRequired,
-  showAll: PropTypes.func.isRequired,
 };

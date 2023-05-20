@@ -1,0 +1,11 @@
+.back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    width: 100px;
+    height: 30px;
+    margin-bottom: 10px;
+    border-radius: 7px;
+    background: linear-gradient(114.99deg, #471ca9 -0.99%, #5736a3 54.28%, #4b2a99 78.99%);
+  }

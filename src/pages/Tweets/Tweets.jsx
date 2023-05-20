@@ -1,12 +1,16 @@
 import { TweetList } from 'components/TweetList/TweetList';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getLocalUsers, setLocalUsers } from 'services/localStorageService';
 import { fetchUsers } from 'services/users-API';
+import css from './Tweets.module.css';
 
 export const Tweets = () => {
   const localStorageKey = 'users';
   const [users, setUsers] = useState([]);
-  const [currentTweetIndex, setCurrentTweetIndex] = useState(3);
+
+  const [filter, setFilter] = useState('all');
+  const [filteredUsers, setFilteredUsers] = useState(users);
 
   useEffect(() => {
     const localUsers = getLocalUsers(localStorageKey) || [];
@@ -21,6 +25,28 @@ export const Tweets = () => {
         .catch(error => console.log(error));
     }
   }, []);
+
+  useEffect(() => {
+    switch (filter) {
+      case 'all':
+        setFilteredUsers(users);
+        break;
+      case 'follow':
+        setFilteredUsers(users.filter(user => user.isFollowing === false));
+        break;
+      case 'following':
+        setFilteredUsers(users.filter(user => user.isFollowing === true));
+        break;
+      default:
+        break;
+    }
+  }, [filter, users]);
+
+  const handleFilterChange = event => {
+    event.preventDefault();
+    const newFilter = event.target.value;
+    setFilter(newFilter);
+  };
 
   const handleFollowButtonClick = event => {
     event.preventDefault();
@@ -39,21 +65,24 @@ export const Tweets = () => {
     }
   };
 
-  const loadMore = () => {
-    setCurrentTweetIndex(prevIndex => prevIndex + 3);
-  };
 
-  const showAll = () => {
-    setCurrentTweetIndex(users.length);
-  };
 
   return (
-    <TweetList
-      users={users}
-      onClick={handleFollowButtonClick}
-      loadMore={loadMore}
-      showAll={showAll}
-      tweets={currentTweetIndex}
-    ></TweetList>
+    <div>
+      <div>
+        <Link to="/" className={css.back}>
+          Go back
+        </Link>
+        <select value={filter} onChange={handleFilterChange}>
+          <option value="all">All</option>
+          <option value="follow">Follow</option>
+          <option value="following">Following</option>
+        </select>
+      </div>
+      <TweetList
+        users={filteredUsers}
+        onClick={handleFollowButtonClick}
+      ></TweetList>
+    </div>
   );
 };
