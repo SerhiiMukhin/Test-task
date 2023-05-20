@@ -2,6 +2,7 @@ import { TweetCard } from '../TweetCard/TweetCard';
 import css from './TweetList.module.css';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ScrollToTopButton from 'components/ScrollButton/ScrollButton';
 
 export const TweetList = ({ users, onClick, loadMore, tweets, showAll }) => {
   return (
@@ -33,6 +34,7 @@ export const TweetList = ({ users, onClick, loadMore, tweets, showAll }) => {
           </button>
         </div>
       )}
+      <ScrollToTopButton></ScrollToTopButton>
     </div>
   );
 };
