@@ -16,7 +16,7 @@ export const SharedLayout = () => {
               Home
             </NavLink>
             <NavLink className={({ isActive }) => (isActive ? 'active' : 'navLink')} to="/tweets">
-              Tweets
+              Woofs
             </NavLink>
           </nav>
         </div>

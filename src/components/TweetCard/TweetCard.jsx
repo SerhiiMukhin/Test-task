@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 export const TweetCard = ({ avatar, followers, tweets, onClick, id, isFollowing }) => (
   <div className={css.wrapper}>
     <a href="https://goit.global/ua/" className={css.link}>
-      {' '}
+     <img className={css.logo} src={require('../../images/logo.png')} alt="logo" />
     </a>
     <div className={css.background}></div>
     <AvatarFrame avatar={avatar}></AvatarFrame>

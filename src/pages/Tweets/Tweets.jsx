@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getLocalUsers, setLocalUsers } from 'services/localStorageService';
 import { fetchUsers } from 'services/users-API';
 import css from './Tweets.module.css';
+import { BsArrowLeft } from 'react-icons/bs';
 
 export const Tweets = () => {
   const localStorageKey = 'users';
@@ -65,24 +66,22 @@ export const Tweets = () => {
     }
   };
 
-
-
   return (
     <div>
-      <div>
+      <div className={css.wrapper}>
         <Link to="/" className={css.back}>
+          <BsArrowLeft className={css.arrow_left}></BsArrowLeft>
           Go back
         </Link>
-        <select value={filter} onChange={handleFilterChange}>
-          <option value="all">All</option>
-          <option value="follow">Follow</option>
-          <option value="following">Following</option>
-        </select>
+        <div>
+          <select className={css.select} value={filter} onChange={handleFilterChange}>
+            <option value="all">All</option>
+            <option value="follow">Follow</option>
+            <option value="following">Following</option>
+          </select>
+        </div>
       </div>
-      <TweetList
-        users={filteredUsers}
-        onClick={handleFollowButtonClick}
-      ></TweetList>
+      <TweetList users={filteredUsers} onClick={handleFollowButtonClick}></TweetList>
     </div>
   );
 };
