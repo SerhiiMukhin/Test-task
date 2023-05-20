@@ -26,6 +26,11 @@
   border-radius: 10px;
 }
 
+.button:hover {
+  cursor: pointer;
+  transform: translate(0, 2px);
+}
+
 .following {
   background: #5cd3a8;
 }

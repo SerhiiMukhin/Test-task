@@ -1,51 +1,17 @@
-import React, { useState} from 'react';
 import { TweetCard } from '../TweetCard/TweetCard';
 import css from './TweetList.module.css';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import ScrollToTopButton from 'components/ScrollButton/ScrollButton';
 
-export const TweetList = ({ users, onClick, loadMore, tweets }) => {
-  const [selectedOption, setSelectedOption] = useState('all');
-  const [filteredUsers, setFilteredUsers] = useState(users);
-
-  console.log(selectedOption)
-  console.log(filteredUsers)
-
-  const handleChange = event => {
-    const filterValue = event.target.value;
-    setSelectedOption(filterValue);
-    switch (filterValue) {
-      case 'all':
-        setFilteredUsers(users);
-        break;
-      case 'following':
-        setFilteredUsers(users.filter(user => user.isFollowing === true));
-        break;
-      case 'follow':
-        setFilteredUsers(users.filter(user => user.isFollowing === false));
-        break;
-      default:
-        break;
-    }
-  };
-
+export const TweetList = ({ users, onClick, loadMore, tweets, showAll }) => {
   return (
     <div className={css.wrapper}>
       <Link to="/" className={css.back}>
         Go back
       </Link>
-      <label>
-        <select
-          name="filter"
-          value={selectedOption}
-          onChange={handleChange}
-        >
-          <option value="all">All</option>
-          <option value="following">Following</option>
-          <option value="follow">Follow</option>
-        </select>
-      </label>
       <ul className={css.list}>
-        {filteredUsers.slice(0, tweets).map(user => (
+        {users.slice(0, tweets).map(user => (
           <li key={user.id}>
             <TweetCard
               id={user.id}
@@ -58,11 +24,25 @@ export const TweetList = ({ users, onClick, loadMore, tweets }) => {
           </li>
         ))}
       </ul>
-      {tweets < filteredUsers.length && (
-        <button type="button" onClick={loadMore} className={css.button}>
-          Load More
-        </button>
+      {tweets < users.length && (
+        <div className={css.buttons_wrapper}>
+          <button type="button" onClick={loadMore} className={css.button}>
+            Load More
+          </button>
+          <button type="button" onClick={showAll} className={css.button}>
+            Show All
+          </button>
+        </div>
       )}
+      <ScrollToTopButton></ScrollToTopButton>
     </div>
   );
+};
+
+TweetList.propTypes = {
+  users: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired,
+  loadMore: PropTypes.func.isRequired,
+  tweets: PropTypes.number.isRequired,
+  showAll: PropTypes.func.isRequired,
 };

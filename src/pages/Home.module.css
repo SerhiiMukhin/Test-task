@@ -1,16 +1,16 @@
 .wrapper {
-  width: 1200px;
-  padding: 10px;
-  margin-right: auto;
-  margin-left: auto;
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  margin-bottom: 16px;
+.text {
+  font-family: 'Ubuntu';
+  font-size: 40px;
+  color: #471ca9;
+  margin-bottom: 12px;
 }
 
 .button {
@@ -18,10 +18,10 @@
   width: 196px;
   height: 50px;
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
   justify-content: center;
   align-items: center;
-  padding: 14px 28px;
+  padding: 14px;
   gap: 6px;
 
   margin-left: auto;
@@ -48,23 +48,4 @@
   background: #fff;
   outline: 1px solid #471ca9;
   transition: 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.buttons_wrapper {
-  margin-right: auto;
-  margin-left: auto;
-  display: flex;
-  width: 450px;
-}
-
-.back {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  width: 100px;
-  height: 30px;
-  margin-bottom: 10px;
-  border-radius: 7px;
-  background: linear-gradient(114.99deg, #471ca9 -0.99%, #5736a3 54.28%, #4b2a99 78.99%);
 }
