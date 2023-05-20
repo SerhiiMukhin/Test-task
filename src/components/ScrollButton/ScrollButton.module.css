@@ -11,6 +11,6 @@
 }
 
 .button:hover {
-    cursor: pointer;
-    transform: translateY(-5px);
+  cursor: pointer;
+  transform: translateY(-5px);
 }

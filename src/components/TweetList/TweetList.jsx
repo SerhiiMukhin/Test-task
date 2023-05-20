@@ -14,22 +14,30 @@ export const TweetList = ({ users, onClick }) => {
   const showAll = () => {
     setCurrentTweetIndex(users.length);
   };
+
   return (
     <div className={css.wrapper}>
-      <ul className={css.list}>
-        {users.slice(0, currentTweetIndex).map(user => (
-          <li key={user.id}>
-            <TweetCard
-              id={user.id}
-              avatar={user.avatar}
-              followers={user.followers.toLocaleString('en-US')}
-              tweets={user.tweets.toLocaleString('en-US')}
-              isFollowing={user.isFollowing}
-              onClick={onClick}
-            ></TweetCard>
-          </li>
-        ))}
-      </ul>
+      {users.length > 0 ? (
+        <ul className={css.list}>
+          {users.slice(0, currentTweetIndex).map(user => (
+            <li key={user.id}>
+              <TweetCard
+                id={user.id}
+                avatar={user.avatar}
+                followers={user.followers.toLocaleString('en-US')}
+                tweets={user.tweets.toLocaleString('en-US')}
+                isFollowing={user.isFollowing}
+                onClick={onClick}
+              ></TweetCard>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className={css.warning_wrapper}>
+          <p className={css.warning}>Sorry, no results!</p>
+        </div>
+      )}
+
       {currentTweetIndex < users.length && (
         <div className={css.buttons_wrapper}>
           <button type="button" onClick={loadMore} className={css.button}>

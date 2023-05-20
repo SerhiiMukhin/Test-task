@@ -5,23 +5,26 @@ import { getLocalUsers, setLocalUsers } from 'services/localStorageService';
 import { fetchUsers } from 'services/users-API';
 import css from './Tweets.module.css';
 import { BsArrowLeft } from 'react-icons/bs';
+import { ThreeCircles } from 'react-loader-spinner';
 
 export const Tweets = () => {
   const localStorageKey = 'users';
   const [users, setUsers] = useState([]);
-
   const [filter, setFilter] = useState('all');
   const [filteredUsers, setFilteredUsers] = useState(users);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const localUsers = getLocalUsers(localStorageKey) || [];
     if (localUsers.length !== 0) {
       setUsers(localUsers);
     } else {
+      setIsLoading(true);
       fetchUsers()
         .then(users => {
           setUsers(users);
           localStorage.setItem(localStorageKey, JSON.stringify(users));
+          setIsLoading(false);
         })
         .catch(error => console.log(error));
     }
@@ -81,7 +84,18 @@ export const Tweets = () => {
           </select>
         </div>
       </div>
-      <TweetList users={filteredUsers} onClick={handleFollowButtonClick}></TweetList>
+      {isLoading ? (
+        <div className={css.spinner_wrapper}>
+          <ThreeCircles
+            height="150"
+            width="150"
+            color="#471ca9"
+            ariaLabel="three-circles-rotating"
+          />
+        </div>
+      ) : (
+        <TweetList users={filteredUsers} onClick={handleFollowButtonClick}></TweetList>
+      )}
     </div>
   );
 };

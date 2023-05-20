@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { NavLink, Link, Outlet } from 'react-router-dom';
 import css from './SharedLayout.module.css';
+import { ThreeCircles } from 'react-loader-spinner';
 
 export const SharedLayout = () => {
   return (
@@ -21,7 +22,18 @@ export const SharedLayout = () => {
           </nav>
         </div>
       </header>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className={css.spinner_wrapper}>
+            <ThreeCircles
+              height="150"
+              width="150"
+              color="#471ca9"
+              ariaLabel="three-circles-rotating"
+            />
+          </div>
+        }
+      >
         <Outlet />
       </Suspense>
     </div>

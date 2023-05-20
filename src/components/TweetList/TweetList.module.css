@@ -57,4 +57,26 @@
   width: 450px;
 }
 
+.warning_wrapper {
+  display: flex;
+  height: calc(100vh - 200px);
+  justify-content: center;
+  align-items: center;
+}
 
+.warning {
+  font-family: 'Montserrat';
+  font-size: 40px;
+  color: #471ca9;
+  animation: myAnim 1s ease 0s 1 normal forwards;
+}
+
+@keyframes myAnim {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

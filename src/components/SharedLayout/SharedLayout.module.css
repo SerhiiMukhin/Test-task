@@ -37,3 +37,10 @@
   display: flex;
   gap: 20px;
 }
+
+.spinner_wrapper {
+  display: flex;
+  height: calc(100vh - 100px);
+  justify-content: center;
+  align-items: center;
+}
